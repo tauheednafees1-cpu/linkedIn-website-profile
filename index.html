@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tauheed Nafees - Portfolio</title>
+    <style>
+        /* CSS RESET & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-cream: #f9f6f0;
+            --bg-card: #f3eee6;
+            --bg-dark: #3b6278;
+            --text-dark: #1f2937;
+            --text-muted: #4b5563;
+            --text-light: #f3f4f6;
+            --accent-blue: #3b6278;
+            --card-border: rgba(59, 98, 120, 0.15);
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* AMBIENT BACKGROUND GLOW ANIMATION */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.15) 0%, rgba(249, 246, 240, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: floatGlow 12s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(150px, 200px) scale(1.2); }
+            100% { transform: translate(-50px, 400px) scale(0.9); }
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* ANIMATION CLASSES */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3 {
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 24px;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* BUTTONS WITH PULSE & SHINE ANIMATIONS */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: white;
+            border: 1px solid var(--accent-blue);
+            box-shadow: 0 4px 10px rgba(59, 98, 120, 0.2);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transform: rotate(30deg) translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn-primary:hover::after {
+            transform: rotate(30deg) translateX(100%);
+        }
+
+        .btn-primary:hover {
+            background-color: #2c4a5b;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(59, 98, 120, 0.35);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(59, 98, 120, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* SECTIONS & GRID LAYOUTS */
+        .section-block {
+            margin-bottom: 80px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* DARK SECTION CONTAINER */
+        .dark-wrapper {
+            background-color: var(--bg-dark);
+            padding: 60px 0;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-wrapper h2 {
+            color: white;
+        }
+
+        .dark-card {
+            background-color: var(--bg-cream);
+            border-radius: 12px;
+            padding: 36px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* HERO & ABOUT ILLUSTRATIONS WITH FLOAT ANIMATIONS */
+        .illustration-box {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
+            animation: floatingBox 5s ease-in-out infinite alternate;
+        }
+
+        .illustration-box:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+        }
+
+        .illustration-box svg {
+            width: 80%;
+            height: 80%;
+            transition: transform 0.5s ease;
+        }
+
+        .illustration-box:hover svg {
+            transform: scale(1.05);
+        }
+
+        @keyframes floatingBox {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-8px); }
+        }
+
+        /* CARDS WITH HOVER LIFTS */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            padding: 24px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+            border-color: var(--accent-blue);
+        }
+
+        .icon-circle {
+            width: 42px;
+            height: 42px;
+            background-color: var(--accent-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .card:hover .icon-circle {
+            transform: rotate(12deg) scale(1.1);
+        }
+
+        /* TIMELINE (EDUCATIONAL JOURNEY) WITH ANIMATED MARKERS */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background-color: #d1d5db;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-number {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            width: 26px;
+            height: 26px;
+            background-color: var(--bg-card);
+            border: 2px solid var(--accent-blue);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover .timeline-number {
+            background-color: var(--accent-blue);
+            color: white;
+            transform: scale(1.15);
+            box-shadow: 0 0 10px rgba(59, 98, 120, 0.4);
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        .timeline-title {
+            font-weight: 700;
+            margin: 4px 0;
+            color: var(--text-dark);
+        }
+
+        /* TOP ICON BOXES FOR AREAS OF INTEREST */
+        .top-icon-card {
+            text-align: center;
+            position: relative;
+            padding-top: 40px;
+        }
+
+        .top-icon {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 98, 120, 0.3);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+        }
+
+        .top-icon-card:hover .top-icon {
+            transform: translateX(-50%) translateY(-5px) scale(1.15);
+            background-color: #2c4a5b;
+        }
+
+        /* CONTACT SECTION */
+        .contact-box {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .contact-box:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+            transform: translateX(6px);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .contact-box label {
+            display: block;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-bottom: 4px;
+        }
+
+        .contact-box a, .contact-box span {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        /* LIST ITEM HOVER EFFECTS */
+        ul li {
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        ul li:hover {
+            transform: translateX(4px);
+            color: var(--text-dark);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.6rem; }
+            
+            .illustration-box {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <div class="container section-block animate-on-scroll">
+        <div class="grid-2">
+            <div>
+                <h1>Tauheed Nafees</h1>
+                <p>Computer Science Student | AI & Machine Learning Enthusiast | Kanpur, India</p>
+                <div class="btn-group">
+                    <a href="#connect" class="btn btn-primary">Get in Touch</a>
+                    <a href="https://linkedin.com/in/tauheed-nafees-ab6b222a9" target="_blank" class="btn btn-outline">View LinkedIn</a>
+                </div>
+            </div>
+            <div class="illustration-box">
+                <!-- Laptop Working Illustration SVG -->
+                <svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="120" width="200" height="10" rx="3" fill="#3b6278"/>
+                    <rect x="70" y="50" width="160" height="70" rx="5" fill="#2c4a5b"/>
+                    <rect x="75" y="55" width="150" height="60" fill="#60a5fa"/>
+                    <circle cx="150" cy="85" r="15" fill="#ffffff" opacity="0.8"/>
+                    <path d="M120 150 C120 130, 180 130, 180 150" stroke="#3b6278" stroke-width="8" stroke-linecap="round"/>
+                    <circle cx="150" cy="125" r="10" fill="#ffb703"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT ME SECTION -->
+    <div class="container section-block animate-on-scroll">
+        <div class="grid-2">
+            <div class="illustration-box">
+                <!-- Campus / Buildings Illustration SVG -->
+                <svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="30" y="40" width="70" height="130" fill="#3b6278"/>
+                    <rect x="110" y="70" width="60" height="100" fill="#60a5fa"/>
+                    <rect x="180" y="50" width="80" height="120" fill="#93c5fd"/>
+                    <rect x="45" y="60" width="15" height="20" fill="#ffffff"/>
+                    <rect x="70" y="60" width="15" height="20" fill="#ffffff"/>
+                    <rect x="45" y="90" width="15" height="20" fill="#ffffff"/>
+                    <rect x="70" y="90" width="15" height="20" fill="#ffffff"/>
+                </svg>
+            </div>
+            <div>
+                <h2>About Me</h2>
+                <div style="display: flex; gap: 20px;">
+                    <div>
+                        <h3>Current Focus</h3>
+                        <p>I'm a dedicated Computer Science student at St. Francis Xavier's Inter College, pursuing my Bachelor of Technology degree. My academic journey is focused on building a strong foundation in computer science principles while exploring cutting-edge technologies.</p>
+                    </div>
+                    <div>
+                        <h3>Background</h3>
+                        <p>Based in Kanpur, Uttar Pradesh, I previously studied Artificial Intelligence and Machine Learning at Allenhouse Institute of Technology. This experience sparked my passion for innovative technology solutions and problem-solving.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CORE COMPETENCIES (DARK WRAPPER) -->
+    <div class="dark-wrapper">
+        <div class="container animate-on-scroll">
+            <div class="dark-card">
+                <h2>Core Competencies</h2>
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="icon-circle">⚙️</div>
+                        <h3>Engineering</h3>
+                        <p>Strong technical foundation in software development, system design, and problem-solving methodologies.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon-circle">💬</div>
+                        <h3>Communication</h3>
+                        <p>Effective verbal and written communication skills for collaborating with teams and presenting technical concepts.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon-circle">🌐</div>
+                        <h3>English</h3>
+                        <p>Proficient in English for professional documentation, presentations, and international collaboration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDUCATIONAL JOURNEY -->
+    <div class="container section-block animate-on-scroll">
+        <div class="grid-2">
+            <div>
+                <h2>Educational Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-date">2023 -27</div>
+                        <div class="timeline-title">Allenhouse Institute of Technology</div>
+                        <p><strong>B.Tech in Artificial Intelligence and Machine Learning</strong></p>
+                        <p>Gained foundational knowledge in AI/ML technologies and their practical applications.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-date">2023</div>
+                        <div class="timeline-title">St. Francis Xavier's Inter College</div>
+                        <p><strong>Completed intermediate education</strong></p>
+                        <p>Focused on science and mathematics, building core analytical and problem-solving abilities.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="illustration-box">
+                <!-- Graduation Cap & Certificate SVG -->
+                <svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M150 50 L230 90 L150 130 L70 90 Z" fill="#3b6278"/>
+                    <rect x="140" y="110" width="20" height="40" fill="#2c4a5b"/>
+                    <rect x="80" y="130" width="60" height="40" rx="5" fill="#60a5fa"/>
+                    <circle cx="110" cy="150" r="10" fill="#ffb703"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- TECHNICAL EXPERTISE -->
+    <div class="container section-block animate-on-scroll">
+        <div class="card" style="padding: 36px;">
+            <h2>Technical Expertise</h2>
+            <div class="grid-3" style="margin-top: 20px;">
+                <div style="display: flex; gap: 16px;">
+                    <div class="icon-circle" style="flex-shrink: 0;">🧠</div>
+                    <div>
+                        <h3>Artificial Intelligence</h3>
+                        <p>Understanding of AI principles, machine learning algorithms, and their real-world applications in solving complex problems.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 16px;">
+                    <div class="icon-circle" style="flex-shrink: 0;">💻</div>
+                    <div>
+                        <h3>Data Science</h3>
+                        <p>Hands-on experience with programming languages and gained knowledge in data analysis, visualization, and statistical modeling.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 16px;">
+                    <div class="icon-circle" style="flex-shrink: 0;">📊</div>
+                    <div>
+                        <h3>Machine Learning</h3>
+                        <p>Knowledge of ML techniques, data processing, and model development for predictive analytics and automation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFESSIONAL APPROACH -->
+    <div class="container section-block animate-on-scroll">
+        <h2>Professional Approach</h2>
+        <div class="grid-2">
+            <div class="illustration-box">
+                <!-- Desk Work SVG -->
+                <svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="40" y="130" width="220" height="10" fill="#3b6278"/>
+                    <rect x="80" y="70" width="80" height="60" rx="4" fill="#2c4a5b"/>
+                    <circle cx="200" cy="100" r="25" fill="#ffb703"/>
+                </svg>
+            </div>
+            <div>
+                <h3>My Philosophy</h3>
+                <p>I believe in continuous learning and staying current with emerging technologies. My approach combines strong engineering fundamentals with creative problem-solving to develop innovative solutions.</p>
+                <p style="margin-top: 10px;">I'm passionate about leveraging technology to create meaningful impact and am always eager to take on new challenges that push my boundaries.</p>
+                <ul style="margin-top: 16px; margin-left: 20px; color: var(--text-muted); font-size: 0.95rem;">
+                    <li>Commitment to excellence in every project</li>
+                    <li>Collaborative team player with strong work ethic</li>
+                    <li>Adaptable to new technologies and methodologies</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- AREAS OF INTEREST -->
+    <div class="container section-block animate-on-scroll">
+        <h2>Areas of Interest</h2>
+        <div class="grid-3" style="margin-top: 40px;">
+            <div class="card top-icon-card">
+                <div class="top-icon">🕸️</div>
+                <h3>Deep Learning</h3>
+                <p>Exploring neural networks and their applications in computer vision, natural language processing, and predictive modeling.</p>
+            </div>
+            <div class="card top-icon-card">
+                <div class="top-icon">☁️</div>
+                <h3>Cloud Technologies</h3>
+                <p>Understanding cloud infrastructure, distributed systems, and scalable application development for modern solutions.</p>
+            </div>
+            <div class="card top-icon-card">
+                <div class="top-icon">🛠️</div>
+                <h3>Software Engineering</h3>
+                <p>Building efficient, maintainable code using best practices in software design, testing, and deployment.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOCATION & AVAILABILITY -->
+    <div class="container section-block animate-on-scroll">
+        <h2>Location & Availability</h2>
+        <div class="grid-3">
+            <div class="card">
+                <h3>Based in Kanpur</h3>
+                <p>Uttar Pradesh, India<br>208001, Rahimabad</p>
+            </div>
+            <div class="card">
+                <h3>Open to Opportunities</h3>
+                <p>Available for internships, projects, and collaborative work in technology and software development.</p>
+            </div>
+            <div class="card">
+                <h3>Remote Ready</h3>
+                <p>Equipped to work remotely with strong communication skills and self-motivation.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LET'S CONNECT (DARK SECTION) -->
+    <div class="dark-wrapper" id="connect">
+        <div class="container animate-on-scroll">
+            <h2 style="margin-bottom: 24px;">Let's Connect</h2>
+            <div class="grid-2">
+                <div>
+                    <h3 style="color: white;">Ready to Collaborate</h3>
+                    <p style="color: #cbd5e1; margin-top: 12px;">I'm always interested in connecting with fellow technology enthusiasts, potential employers, and collaborators. Whether you have a project idea, internship opportunity, or just want to discuss the latest in tech, I'd love to hear from you.</p>
+                    <p style="color: #cbd5e1; margin-top: 12px;">Feel free to reach out through any of the channels listed. I typically respond within 24 hours.</p>
+                </div>
+                <div>
+                    <div class="contact-box">
+                        <label>Email</label>
+                        <a href="mailto:tauheednafees1@gmail.com">tauheednafees1@gmail.com</a>
+                    </div>
+                    
+                    <div class="contact-box">
+                        <label>LinkedIn</label>
+                        <a href="https://linkedin.com/in/tauheed-nafees-ab6b222a9" target="_blank">Connect with me</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BUILDING THE FUTURE TOGETHER (BOTTOM HERO) -->
+    <div class="container section-block animate-on-scroll">
+        <div class="grid-2">
+            <div class="illustration-box">
+                <!-- Looking at Horizon SVG -->
+                <svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="150" cy="150" r="80" fill="#ffb703" opacity="0.3"/>
+                    <path d="M0 160 Q150 120 300 160 L300 200 L0 200 Z" fill="#3b6278"/>
+                    <circle cx="150" cy="130" r="8" fill="#2c4a5b"/>
+                    <path d="M140 160 L160 160 L155 140 L145 140 Z" fill="#2c4a5b"/>
+                </svg>
+            </div>
+            <div>
+                <h2>Building the Future Together</h2>
+                <p>As a passionate Computer Science student with a foundation in Artificial Intelligence and Machine Learning, I'm committed to continuous growth and innovation. My journey from St. Francis Xavier's Inter College to Allenhouse Institute of Technology has equipped me with both theoretical knowledge and practical insights into cutting-edge technologies.</p>
+                <p style="margin-top: 12px;">I bring strong engineering capabilities, effective communication skills, and a collaborative mindset to every project. Whether it's developing intelligent systems, creating innovative software solutions, or contributing to meaningful tech initiatives, I'm ready to make an impact.</p>
+                <div class="btn-group">
+                    <a href="#connect" class="btn btn-primary">Start a Conversation</a>
+                    <a href="https://linkedin.com/in/tauheednafees-ab6b222a9" target="_blank" class="btn btn-outline">View Full Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENHANCED JAVASCRIPT FOR SCROLL ANIMATIONS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Enhanced Observer with staggered animation support for child cards
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -50px 0px',
+                threshold: 0.12
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Stagger child element animations if grids are inside
+                        const childCards = entry.target.querySelectorAll('.card, .contact-box, .timeline-item');
+                        childCards.forEach((card, index) => {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                            
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 150 * index);
+                        });
+
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
